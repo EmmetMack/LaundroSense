@@ -36,7 +36,7 @@
         tools:layout_constraintTop_creator="1" />
 
     <TextView
-        android:id="@+id/progress"
+        android:id="@+id/stage_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="160dp"
@@ -50,17 +50,16 @@
 
 
     <TextView
-        android:id="@+id/stage_value"
+        android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="168dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="156dp"
         android:text="Progress"
         android:textSize="48px"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        tools:layout_editor_absoluteX="157dp" />
 
     <TextView
         android:id="@+id/estimated_time_label"
@@ -93,23 +92,23 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="165dp"
         android:layout_height="172dp"
-        android:layout_marginTop="197dp"
-        android:layout_marginBottom="362dp"
+        android:layout_marginBottom="292dp"
         android:max="100"
         android:progress="75"
         android:progressBackgroundTint="#0069C0"
         android:progressTint="#6EC6FF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.455"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/progress"
+        app:layout_constraintVertical_bias="1.0" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Do it!"
-        android:id="@+id/button"
-        android:onClick="sendNotification"/>
+    <!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Do it!"-->
+<!--        android:id="@+id/button"-->
+<!--        android:onClick="sendNotification"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
