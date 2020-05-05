@@ -53,13 +53,13 @@
         android:id="@+id/progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
+        android:layout_marginTop="152dp"
         android:text="Progress"
         android:textSize="48px"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"
-        tools:layout_editor_absoluteX="157dp" />
+        tools:layout_editor_absoluteX="169dp" />
 
     <TextView
         android:id="@+id/estimated_time_label"
@@ -89,20 +89,19 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="165dp"
-        android:layout_height="172dp"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="386dp"
+        android:layout_height="159dp"
         android:layout_marginBottom="292dp"
         android:max="100"
         android:progress="75"
         android:progressBackgroundTint="#0069C0"
         android:progressTint="#6EC6FF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.455"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.804" />
 
     <!--    <Button-->
 <!--        android:layout_width="wrap_content"-->
