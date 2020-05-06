@@ -36,6 +36,7 @@ public class ValueActivity extends AppCompatActivity {
     private TextView stage_name;
     private TextView progressValue;
     private int count = 0;
+    int id = 000;
     private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
     @Override
@@ -151,6 +152,7 @@ public class ValueActivity extends AppCompatActivity {
 
 //            NotificationManager.notify();
 
-        mNotificationManager.notify(001, mBuilder.build());
+        id++;
+        mNotificationManager.notify(id, mBuilder.build());
     }
 }
