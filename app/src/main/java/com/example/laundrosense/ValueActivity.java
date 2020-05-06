@@ -35,7 +35,13 @@ public class ValueActivity extends AppCompatActivity {
     private static final String ARG_DEVICEID = "e00fce68ae329b6376267a66"; //change for specific device
     private TextView stage_name;
     private TextView progressValue;
-    private int count = 0;
+    private int sensingCount = 0;
+    private int washCount = 0;
+    private int rinseCount = 0;
+    private int spinCount = 0;
+    private int doneCount = 0;
+    private int dryingCount = 0;
+    private int offCount = 0;
     int id = 000;
     private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -84,34 +90,56 @@ public class ValueActivity extends AppCompatActivity {
                     //include logic of getting variables in here and counting/checking on them
                         if (i.toString() == "Sensing") {
                             stage_name.setText("Sensing");
-                            sendNotification("In Sensing stage" );
-                            progressBar.setMax(5);
-                            progressBar.setProgress(1);
+                            if (sensingCount == 0) {
+                                sendNotification("In Sensing stage");
+                                progressBar.setMax(5);
+                                progressBar.setProgress(1);
+                            }
+                            sensingCount ++;
                         } else if (i.toString() == "Wash") {
                             stage_name.setText("Wash");
-                            sendNotification("In Washing Stage" );
-                            progressBar.setProgress(2);
+                            if (washCount == 0) {
+                                sendNotification("In Washing Stage" );
+                                progressBar.setProgress(2);
+                            }
+                            washCount ++;
+
                         } else if (i.toString() == "Rinse") {
                             stage_name.setText("Rinse");
-                            sendNotification("In Rinse stage" );
-                            progressBar.setProgress(3);
+                            if (rinseCount == 0) {
+                                sendNotification("In Rinse stage" );
+                                progressBar.setProgress(3);
+                            }
+                            washCount ++;
                         } else if (i.toString() == "Spin") {
                             stage_name.setText("Spin");
-                            sendNotification("In Spin stage" );
-                            progressBar.setProgress(4);
+                            if (spinCount == 0 ) {
+                                sendNotification("In Spin stage" );
+                                progressBar.setProgress(4);
+                            }
+                            spinCount ++;
                         } else if (i.toString() == "Done") {
                             stage_name.setText("Done");
-                            sendNotification("Washing machine done" );
-                            progressBar.setProgress(5);
+                            if (doneCount == 0) {
+                                sendNotification("Washing machine done" );
+                                progressBar.setProgress(5);
+                            }
+                            doneCount ++;
                         } else if (i.toString() == "Dry") {
                             stage_name.setText("Dry");
-                            sendNotification("Drying" );
-                            progressBar.setMax(2);
-                            progressBar.setProgress((1));
+                            if (dryingCount == 0) {
+                                sendNotification("Drying" );
+                                progressBar.setMax(2);
+                                progressBar.setProgress((1));
+                            }
+                            dryingCount ++;
                         } else if (i.toString() == "Off") {
                             stage_name.setText("Off");
-                            sendNotification("Dryer finished ");
-                            progressBar.setProgress((2));
+                            if (offCount == 0) {
+                                sendNotification("Dryer finished ");
+                                progressBar.setProgress((2));
+                            }
+                            doneCount ++;
                         }
                     }
 
