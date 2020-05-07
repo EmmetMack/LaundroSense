@@ -51,6 +51,11 @@ public class main extends AppCompatActivity {
     private int doneCount = 0;
     private int dryingCount = 0;
     private int offCount = 0;
+    // baselines all in seconds
+    private int senseBaseline = 484;
+    private int washBaseline = 1939;
+    private int rinseBaseline = 609;
+    private int spinBaseline = 659;
 
     private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
     private ValueActivity valueActivity = new ValueActivity();
