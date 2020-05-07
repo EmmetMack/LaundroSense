@@ -152,6 +152,11 @@ public class main extends AppCompatActivity {
                         sendNotification("In Washing Stage");
                         progressBar.setProgress(2);
                     }
+                    if (washCount == 60) {
+                        washBaseline = washBaseline * sensingCount / senseBaseline;
+                        rinseBaseline = rinseBaseline * sensingCount / senseBaseline;
+                        spinBaseline = spinBaseline * sensingCount / senseBaseline;
+                    }
                     washCount ++;
 
                 } else if (predictedClass == "Rinse") {
@@ -160,12 +165,19 @@ public class main extends AppCompatActivity {
                         sendNotification("Rinsing Now");
                         progressBar.setProgress(3);
                     }
+                    if (rinseCount == 60) {
+                        rinseBaseline = rinseBaseline * washCount / washBaseline;
+                        spinBaseline = spinBaseline * washCount / washBaseline;
+                    }
                     washCount ++;
                 } else if (predictedClass == "Spin") {
                     stage_name.setText("Spin");
                     if (spinCount == 0 ) {
                         sendNotification("In Spin Stage");
                         progressBar.setProgress(4);
+                    }
+                    if (spinCount == 60) {
+                        spinBaseline = spinBaseline * rinseCount / rinseBaseline;
                     }
                     spinCount ++;
                 } else if (predictedClass == "Done") {
