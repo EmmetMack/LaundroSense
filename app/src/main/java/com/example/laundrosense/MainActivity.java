@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import io.particle.android.sdk.cloud.ParticleCloud;
 import io.particle.android.sdk.cloud.ParticleCloudSDK;
@@ -31,19 +33,26 @@ import weka.core.Instances;
 
 
 public class MainActivity extends AppCompatActivity {
-    private main main = new main();
+    private main main;
+    private ProgressBar progressBar;
+    private TextView stage_name;
+    private TextView progressValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        main = new main();
         doSomethingRepeatedly();
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressValue = findViewById(R.id.estimated_time);
+        stage_name = findViewById((R.id.current_stage));
     }
 
     private void doSomethingRepeatedly() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate( new TimerTask() {
             public void run() {
-                main.main();
+                main.main(progressValue, progressBar, stage_name);
             }
         }, 0, 1000);
     }
