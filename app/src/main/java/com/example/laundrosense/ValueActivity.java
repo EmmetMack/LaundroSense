@@ -37,13 +37,13 @@ public class ValueActivity extends AppCompatActivity {
     private static final String ARG_DEVICEID = "e00fce68ae329b6376267a66"; //change for specific device
     private TextView stage_name;
     private TextView progressValue;
-    public double ax = 0;
-    public double ay = 0;
-    public double az = 0;
-    public double gx = 0;
-    public double gy = 0;
-    public double gz = 0;
-    List<Double> particleValues = new ArrayList<>();
+    public int ax = 0;
+    public int ay = 0;
+    public int az = 0;
+    public int gx = 0;
+    public int gy = 0;
+    public int gz = 0;
+    List<Integer> particleValues = new ArrayList<>();
 
     private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -73,27 +73,27 @@ public class ValueActivity extends AppCompatActivity {
                         ParticleCloudSDK.getCloud().logIn("emack@andrew.cmu.edu", "Emack101!"); //change for specific device
                         ParticleDevice device = ParticleCloud.getDevice(ARG_DEVICEID);
 
-                        double particleax;
-                        double particleay;
-                        double particleaz;
-                        double particlegx;
-                        double particlegy;
-                        double particlegz;
+                        int particleax;
+                        int particleay;
+                        int particleaz;
+                        int particlegx;
+                        int particlegy;
+                        int particlegz;
                         String variable;
                         particleValues.clear();
 
                         try {
-                            particleax = device.getDoubleVariable("ax"); //change
+                            particleax = device.getIntVariable("ax"); //change
                             particleValues.add(particleax);
-                            particleay = device.getDoubleVariable("ay");
+                            particleay = device.getIntVariable("ay");
                             particleValues.add(particleay);//change
-                            particleaz = device.getDoubleVariable("az");
+                            particleaz = device.getIntVariable("az");
                             particleValues.add(particleaz);//change
-                            particlegx = device.getDoubleVariable("gx");
+                            particlegx = device.getIntVariable("gx");
                             particleValues.add(particlegx);//change
-                            particlegy = device.getDoubleVariable("gy");
+                            particlegy = device.getIntVariable("gy");
                             particleValues.add(particlegy);
-                            particlegz = device.getDoubleVariable("gz");
+                            particlegz = device.getIntVariable("gz");
                             particleValues.add(particlegz);
 
 

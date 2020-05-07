@@ -133,7 +133,7 @@ public class main extends AppCompatActivity {
 
             System.out.println("Index of predicted class label: " + result + ", which corresponds to class: " + classes.get(new Double(result).intValue()));
             String predictedClass = classes.get(new Double(result).intValue());
-                if (predictedClass == "Sensing") {
+                if (predictedClass == "sensing") {
                     stage_name.setText("Sensing");
                     if (sensingCount == 0) {
                         sendNotification("Sensing stage");
@@ -141,7 +141,7 @@ public class main extends AppCompatActivity {
                         progressBar.setProgress(1);
                     }
                     sensingCount ++;
-                } else if (predictedClass == "Wash") {
+                } else if (predictedClass == "wash") {
                     stage_name.setText("Wash");
                     if (washCount == 0) {
                         sendNotification("In Washing Stage");
@@ -149,28 +149,28 @@ public class main extends AppCompatActivity {
                     }
                     washCount ++;
 
-                } else if (predictedClass == "Rinse") {
+                } else if (predictedClass == "rinse") {
                     stage_name.setText("Rinse");
                     if (rinseCount == 0) {
                         sendNotification("Rinsing Now");
                         progressBar.setProgress(3);
                     }
                     washCount ++;
-                } else if (predictedClass == "Spin") {
+                } else if (predictedClass == "spin") {
                     stage_name.setText("Spin");
                     if (spinCount == 0 ) {
                         sendNotification("In Spin Stage");
                         progressBar.setProgress(4);
                     }
                     spinCount ++;
-                } else if (predictedClass == "Done") {
+                } else if (predictedClass == "done") {
                     stage_name.setText("Done");
                     if (doneCount == 0) {
                         sendNotification("Washing machine done!");
                         progressBar.setProgress(5);
                     }
                     doneCount ++;
-                } else if (predictedClass == "Dry") {
+                } else if (predictedClass == "dry") {
                     stage_name.setText("Dry");
                     if (dryingCount == 0) {
                         sendNotification("Drying");
@@ -178,7 +178,7 @@ public class main extends AppCompatActivity {
                         progressBar.setProgress((1));
                     }
                     dryingCount ++;
-                } else if (predictedClass == "Off") {
+                } else if (predictedClass == "off") {
                     stage_name.setText("Off");
                     if (offCount == 0) {
                         sendNotification("Dryer is finished!");

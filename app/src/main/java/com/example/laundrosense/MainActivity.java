@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 main.main();
             }
-        }, 5, 500);
+        }, 0, 500);
     }
 
         public void sendNotification(View view) {
