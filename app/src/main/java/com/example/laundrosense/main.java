@@ -42,8 +42,9 @@ import weka.core.Instances;
 public class main extends AppCompatActivity {
 
     int id = 000;
+    int timeRemaining;
     private TextView stage_name;
-    private TextView progressValue;
+    private TextView progressValue = findViewById(R.id.estimated_time);
     private int sensingCount = 0;
     private int washCount = 0;
     private int rinseCount = 0;
@@ -203,6 +204,11 @@ public class main extends AppCompatActivity {
                     }
                     doneCount ++;
                 }
+                // in minutes
+                timeRemaining = ((senseBaseline + washBaseline + rinseBaseline + spinBaseline) 
+                    - (sensingCount + washCount + rinseCount + spinCount)) / 60;
+                progressValue.setText(timeRemaining+" minutes");
+                
         } catch (Exception e) {
             e.printStackTrace();
         }
