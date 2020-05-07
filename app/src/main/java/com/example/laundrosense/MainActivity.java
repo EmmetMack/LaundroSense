@@ -12,6 +12,14 @@ import android.view.View;
 import io.particle.android.sdk.cloud.ParticleCloudSDK;
 import io.particle.android.sdk.cloud.ParticleDevice;
 import io.particle.android.sdk.utils.Async;
+import java.util.ArrayList;
+import java.util.List;
+
+import weka.classifiers.Classifier;
+import weka.core.Attribute;
+import weka.core.DenseInstance;
+import weka.core.Instances;
+
 
 public class MainActivity extends AppCompatActivity {
 

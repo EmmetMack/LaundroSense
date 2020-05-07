@@ -15,6 +15,8 @@ import android.widget.Toolbar;
 import android.view.View;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,14 +37,14 @@ public class ValueActivity extends AppCompatActivity {
     private static final String ARG_DEVICEID = "e00fce68ae329b6376267a66"; //change for specific device
     private TextView stage_name;
     private TextView progressValue;
-    private int sensingCount = 0;
-    private int washCount = 0;
-    private int rinseCount = 0;
-    private int spinCount = 0;
-    private int doneCount = 0;
-    private int dryingCount = 0;
-    private int offCount = 0;
-    int id = 000;
+    public double ax = 0;
+    public double ay = 0;
+    public double az = 0;
+    public double gx = 0;
+    public double gy = 0;
+    public double gz = 0;
+    List<Double> particleValues = new ArrayList<>();
+
     private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
     @Override
@@ -71,76 +73,43 @@ public class ValueActivity extends AppCompatActivity {
                         ParticleCloudSDK.getCloud().logIn("emack@andrew.cmu.edu", "Emack101!"); //change for specific device
                         ParticleDevice device = ParticleCloud.getDevice(ARG_DEVICEID);
 
+                        double particleax;
+                        double particleay;
+                        double particleaz;
+                        double particlegx;
+                        double particlegy;
+                        double particlegz;
                         String variable;
-
+                        particleValues.clear();
 
                         try {
-                            variable = device.getStringVariable("output"); //change
-                            Log.d("TAG", "variable: " + variable);
+                            particleax = device.getDoubleVariable("ax"); //change
+                            particleValues.add(particleax);
+                            particleay = device.getDoubleVariable("ay");
+                            particleValues.add(particleay);//change
+                            particleaz = device.getDoubleVariable("az");
+                            particleValues.add(particleaz);//change
+                            particlegx = device.getDoubleVariable("gx");
+                            particleValues.add(particlegx);//change
+                            particlegy = device.getDoubleVariable("gy");
+                            particleValues.add(particlegy);
+                            particlegz = device.getDoubleVariable("gz");
+                            particleValues.add(particlegz);
+
+
+                            Log.d("TAG", "Successfully pulled values and added to array");
 
                         } catch (ParticleDevice.VariableDoesNotExistException e) {
                             Toaster.l(ValueActivity.this, e.getMessage());
                             variable = "Can't Get Device Info";
                         }
-                        return variable;
+                        return particleValues;
                     }
 
                     @Override
                     public void onSuccess(@NonNull Object i) { // this goes on the main thread
                     //include logic of getting variables in here and counting/checking on them
-                        if (i.toString() == "Sensing") {
-                            stage_name.setText("Sensing");
-                            if (sensingCount == 0) {
-                                sendNotification("In Sensing stage");
-                                progressBar.setMax(5);
-                                progressBar.setProgress(1);
-                            }
-                            sensingCount ++;
-                        } else if (i.toString() == "Wash") {
-                            stage_name.setText("Wash");
-                            if (washCount == 0) {
-                                sendNotification("In Washing Stage" );
-                                progressBar.setProgress(2);
-                            }
-                            washCount ++;
 
-                        } else if (i.toString() == "Rinse") {
-                            stage_name.setText("Rinse");
-                            if (rinseCount == 0) {
-                                sendNotification("In Rinse stage" );
-                                progressBar.setProgress(3);
-                            }
-                            washCount ++;
-                        } else if (i.toString() == "Spin") {
-                            stage_name.setText("Spin");
-                            if (spinCount == 0 ) {
-                                sendNotification("In Spin stage" );
-                                progressBar.setProgress(4);
-                            }
-                            spinCount ++;
-                        } else if (i.toString() == "Done") {
-                            stage_name.setText("Done");
-                            if (doneCount == 0) {
-                                sendNotification("Washing machine done" );
-                                progressBar.setProgress(5);
-                            }
-                            doneCount ++;
-                        } else if (i.toString() == "Dry") {
-                            stage_name.setText("Dry");
-                            if (dryingCount == 0) {
-                                sendNotification("Drying" );
-                                progressBar.setMax(2);
-                                progressBar.setProgress((1));
-                            }
-                            dryingCount ++;
-                        } else if (i.toString() == "Off") {
-                            stage_name.setText("Off");
-                            if (offCount == 0) {
-                                sendNotification("Dryer finished ");
-                                progressBar.setProgress((2));
-                            }
-                            doneCount ++;
-                        }
                     }
 
                     @Override
@@ -151,36 +120,5 @@ public class ValueActivity extends AppCompatActivity {
 
             }
         }, 0, 500);
-    }
-
-    public void sendNotification(String content) {
-
-        //Get an instance of NotificationManager//
-
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle("LaundroSense")
-                        .setContentText(content);
-
-
-        // Gets an instance of the NotificationManager service//
-
-        NotificationManager mNotificationManager =
-
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // When you issue multiple notifications about the same type of event,
-        // it’s best practice for your app to try to update an existing notification
-        // with this new information, rather than immediately creating a new notification.
-        // If you want to update this notification at a later date, you need to assign it an ID.
-        // You can then use this ID whenever you issue a subsequent notification.
-        // If the previous notification is still visible, the system will update this existing notification,
-        // rather than create a new one. In this example, the notification’s ID is 001//
-
-//            NotificationManager.notify();
-
-        id++;
-        mNotificationManager.notify(id, mBuilder.build());
     }
 }
