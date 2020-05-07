@@ -51,6 +51,10 @@ public class main extends AppCompatActivity {
     private int doneCount = 0;
     private int dryingCount = 0;
     private int offCount = 0;
+    private int senseTime = 24189;
+    private int washTime = 96931;
+    private int senseTime = 30438;
+    private int senseTime = 32950;
 
     private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
     private ValueActivity valueActivity = new ValueActivity();
@@ -120,7 +124,7 @@ public class main extends AppCompatActivity {
         Classifier cls = null;
         try {
             cls = (Classifier) weka.core.SerializationHelper
-                    .read("/home/pirius/iris_model_logistic_allfeatures.model");
+                    .read("app/src/Wash.model");
         } catch (Exception e) {
             e.printStackTrace();
         }
