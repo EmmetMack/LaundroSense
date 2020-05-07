@@ -119,6 +119,6 @@ public class ValueActivity extends AppCompatActivity {
                 });
 
             }
-        }, 0, 500);
+        }, 0, 1000);
     }
 }
