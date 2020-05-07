@@ -136,6 +136,7 @@ public class main extends AppCompatActivity {
                 if (predictedClass == "Sensing") {
                     stage_name.setText("Sensing");
                     if (sensingCount == 0) {
+                        sendNotification("Sensing stage");
                         progressBar.setMax(5);
                         progressBar.setProgress(1);
                     }
@@ -143,6 +144,7 @@ public class main extends AppCompatActivity {
                 } else if (predictedClass == "Wash") {
                     stage_name.setText("Wash");
                     if (washCount == 0) {
+                        sendNotification("In Washing Stage");
                         progressBar.setProgress(2);
                     }
                     washCount ++;
@@ -150,27 +152,28 @@ public class main extends AppCompatActivity {
                 } else if (predictedClass == "Rinse") {
                     stage_name.setText("Rinse");
                     if (rinseCount == 0) {
+                        sendNotification("Rinsing Now");
                         progressBar.setProgress(3);
                     }
                     washCount ++;
                 } else if (predictedClass == "Spin") {
                     stage_name.setText("Spin");
                     if (spinCount == 0 ) {
-
+                        sendNotification("In Spin Stage");
                         progressBar.setProgress(4);
                     }
                     spinCount ++;
                 } else if (predictedClass == "Done") {
                     stage_name.setText("Done");
                     if (doneCount == 0) {
-
+                        sendNotification("Washing machine done!");
                         progressBar.setProgress(5);
                     }
                     doneCount ++;
                 } else if (predictedClass == "Dry") {
                     stage_name.setText("Dry");
                     if (dryingCount == 0) {
-
+                        sendNotification("Drying");
                         progressBar.setMax(2);
                         progressBar.setProgress((1));
                     }
@@ -178,6 +181,7 @@ public class main extends AppCompatActivity {
                 } else if (predictedClass == "Off") {
                     stage_name.setText("Off");
                     if (offCount == 0) {
+                        sendNotification("Dryer is finished!");
                         progressBar.setProgress((2));
                     }
                     doneCount ++;
