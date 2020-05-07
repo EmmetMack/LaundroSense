@@ -70,13 +70,13 @@ public class main extends AppCompatActivity {
         final Attribute gz = new Attribute("gyroX");
         final List<String> classes = new ArrayList<String>() {
             {
-                add("Sensing");
-                add("Wash");
-                add("Rinse");
-                add("Spin");
-                add("Done");
-                add("Dry");
-                add("Off");
+                add("sense");
+                add("wash");
+                add("rinse");
+                add("spin");
+                add("done");
+                add("drying");
+                add("off");
             }
         };
 
