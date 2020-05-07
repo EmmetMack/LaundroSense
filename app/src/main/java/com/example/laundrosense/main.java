@@ -44,6 +44,7 @@ public class main extends AppCompatActivity {
     int id = 000;
     private TextView stage_name;
     private TextView progressValue;
+    private TextView time_estimate = findViewById(R.id.estimated_time);
     private int sensingCount = 0;
     private int washCount = 0;
     private int rinseCount = 0;
@@ -51,10 +52,12 @@ public class main extends AppCompatActivity {
     private int doneCount = 0;
     private int dryingCount = 0;
     private int offCount = 0;
-    private int senseTime = 24189;
-    private int washTime = 96931;
-    private int senseTime = 30438;
-    private int senseTime = 32950;
+    // baselines all in seconds
+    private int senseBaseline = 484;
+    private int washBaseline = 1939;
+    private int rinseBaseline = 609;
+    private int spinBaseline = 659;
+
 
     private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
     private ValueActivity valueActivity = new ValueActivity();
@@ -141,9 +144,12 @@ public class main extends AppCompatActivity {
                     stage_name.setText("Sensing");
                     if (sensingCount == 0) {
                         sendNotification("Sensing stage");
-                        progressBar.setMax(5);
-                        progressBar.setProgress(1);
+                        progressBar.setMax(senseBaseline);
+
+
                     }
+                    progressBar.setProgress(sensingCount);
+                    time_estimate.setText(senseBaseline - sensingCount);
                     sensingCount ++;
                 } else if (predictedClass == "wash") {
                     stage_name.setText("Wash");
@@ -151,6 +157,7 @@ public class main extends AppCompatActivity {
                         sendNotification("In Washing Stage");
                         progressBar.setProgress(2);
                     }
+                    time_estimate.setText(washBaseline - washCount);
                     washCount ++;
 
                 } else if (predictedClass == "rinse") {
@@ -159,6 +166,7 @@ public class main extends AppCompatActivity {
                         sendNotification("Rinsing Now");
                         progressBar.setProgress(3);
                     }
+                    time_estimate.setText(rinseBaseline - rinseCount);
                     washCount ++;
                 } else if (predictedClass == "spin") {
                     stage_name.setText("Spin");
@@ -166,6 +174,7 @@ public class main extends AppCompatActivity {
                         sendNotification("In Spin Stage");
                         progressBar.setProgress(4);
                     }
+                    time_estimate.setText(spinBaseline - spinCount);
                     spinCount ++;
                 } else if (predictedClass == "done") {
                     stage_name.setText("Done");
@@ -173,6 +182,7 @@ public class main extends AppCompatActivity {
                         sendNotification("Washing machine done!");
                         progressBar.setProgress(5);
                     }
+                    time_estimate.setText(0);
                     doneCount ++;
                 } else if (predictedClass == "dry") {
                     stage_name.setText("Dry");
