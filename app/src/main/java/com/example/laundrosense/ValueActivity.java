@@ -45,8 +45,6 @@ public class ValueActivity extends AppCompatActivity {
     public int gz = 0;
     List<Integer> particleValues = new ArrayList<>();
 
-    private final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
