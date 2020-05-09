@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 AssetManager assetManager = getAssets();
 
                 try {
-                    mClassifier = (Classifier) weka.core.SerializationHelper.read(assetManager.open("Wash.model"));
+                    mClassifier = (MultilayerPerceptron) weka.core.SerializationHelper.read(assetManager.open("Wash.model"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
