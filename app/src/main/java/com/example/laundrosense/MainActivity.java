@@ -45,6 +45,7 @@ import weka.classifiers.Classifier;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
+import weka.classifiers.functions.MultilayerPerceptron;
 
 
 public class MainActivity extends AppCompatActivity {
