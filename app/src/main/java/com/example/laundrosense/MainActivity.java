@@ -42,10 +42,11 @@ import java.util.List;
 import java.util.Random;
 
 import weka.classifiers.Classifier;
+import weka.classifiers.functions.MultilayerPerceptron;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
-import weka.classifiers.functions.MultilayerPerceptron;
+import weka.*;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -70,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
     private int spinBaseline = 659;
 
     private ValueActivity valueActivity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,12 +144,12 @@ public class MainActivity extends AppCompatActivity {
                 // reference to dataset
                 newInstance.setDataset(dataUnpredicted);
 
-                Classifier mClassifier = null;
+                MultilayerPerceptron classifier = new MultilayerPerceptron();
 
                 AssetManager assetManager = getAssets();
 
                 try {
-                    mClassifier = (MultilayerPerceptron) weka.core.SerializationHelper.read(assetManager.open("Wash.model"));
+                    classifier = (MultilayerPerceptron) weka.core.SerializationHelper.read(assetManager.open("Wash-Cycle-Model.model"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -158,12 +158,12 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                if (mClassifier == null)
+                if (classifier == null)
                     return;
 
                 // predict new sample
                 try {
-                    double result = mClassifier.classifyInstance(newInstance);
+                    double result = classifier.classifyInstance(newInstance);
 
                     System.out.println("Index of predicted class label: " + result + ", which corresponds to class: " + classes.get(new Double(result).intValue()));
                     String predictedClass = classes.get(new Double(result).intValue());
