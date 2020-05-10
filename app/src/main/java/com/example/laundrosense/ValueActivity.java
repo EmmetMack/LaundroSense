@@ -35,15 +35,12 @@ public class ValueActivity extends AppCompatActivity {
 
     // private static final String ARG_VALUE = "ARG_VALUE";
     private static final String ARG_DEVICEID = "e00fce68ae329b6376267a66"; //change for specific device
-    private TextView stage_name;
-    private TextView progressValue;
     public int ax = 0;
     public int ay = 0;
     public int az = 0;
     public int gx = 0;
     public int gy = 0;
     public int gz = 0;
-    List<Integer> particleValues = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +50,6 @@ public class ValueActivity extends AppCompatActivity {
         ParticleCloudSDK.init(this); //init cloud
 
         setContentView(R.layout.activity_main);
-        stage_name = findViewById(R.id.stage_value);
-        progressValue = findViewById(R.id.estimated_time);
-
         doSomethingRepeatedly();
 
     }
@@ -65,43 +59,32 @@ public class ValueActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate( new TimerTask() {
             public void run() {
                 Async.executeAsync(ParticleCloudSDK.getCloud(), new Async.ApiWork<ParticleCloud, Object>() {
-
+                    String variable;
                     @Override
                     public Object callApi(@NonNull ParticleCloud ParticleCloud) throws ParticleCloudException, IOException {
                         ParticleCloudSDK.getCloud().logIn("emack@andrew.cmu.edu", "Emack101!"); //change for specific device
                         ParticleDevice device = ParticleCloud.getDevice(ARG_DEVICEID);
 
-                        int particleax;
-                        int particleay;
-                        int particleaz;
-                        int particlegx;
-                        int particlegy;
-                        int particlegz;
-                        String variable;
-                        particleValues.clear();
-
                         try {
-                            particleax = device.getIntVariable("ax"); //change
-                            particleValues.add(particleax);
-                            particleay = device.getIntVariable("ay");
-                            particleValues.add(particleay);//change
-                            particleaz = device.getIntVariable("az");
-                            particleValues.add(particleaz);//change
-                            particlegx = device.getIntVariable("gx");
-                            particleValues.add(particlegx);//change
-                            particlegy = device.getIntVariable("gy");
-                            particleValues.add(particlegy);
-                            particlegz = device.getIntVariable("gz");
-                            particleValues.add(particlegz);
+                            ax = device.getIntVariable("ax"); //change
+
+                            ay = device.getIntVariable("ay");
+
+                            az = device.getIntVariable("az");
+                            gx = device.getIntVariable("gx");
+
+                            gy = device.getIntVariable("gy");
+
+                            gz = device.getIntVariable("gz");
 
 
-                            Log.d("TAG", "Successfully pulled values and added to array");
+                            Log.d("TAG", "Successfully pulled values");
 
                         } catch (ParticleDevice.VariableDoesNotExistException e) {
                             Toaster.l(ValueActivity.this, e.getMessage());
                             variable = "Can't Get Device Info";
                         }
-                        return particleValues;
+                        return variable;
                     }
 
                     @Override
