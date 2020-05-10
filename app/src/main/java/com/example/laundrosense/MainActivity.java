@@ -1,5 +1,6 @@
 package com.example.laundrosense;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -49,6 +50,9 @@ import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
 import weka.*;
+
+import static androidx.core.app.NotificationCompat.PRIORITY_HIGH;
+import static androidx.core.app.NotificationManagerCompat.IMPORTANCE_HIGH;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -305,7 +309,8 @@ public class MainActivity extends AppCompatActivity {
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle("LaundroSense Notification")
-                            .setContentText(content);
+                            .setContentText(content)
+                            .setPriority(PRIORITY_HIGH);
 
 
             // Gets an instance of the NotificationManager service//
@@ -313,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager mNotificationManager =
 
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
 
             // When you issue multiple notifications about the same type of event,
             // it’s best practice for your app to try to update an existing notification
@@ -323,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
             // rather than create a new one. In this example, the notification’s ID is 001//
 
 //            NotificationManager.notify();
-
+            mBuilder.setDefaults(Notification.DEFAULT_ALL);
             mNotificationManager.notify(001, mBuilder.build());
 
         }
