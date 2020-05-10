@@ -43,6 +43,7 @@ import java.util.Random;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.functions.MultilayerPerceptron;
+import weka.classifiers.functions.*;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
 import weka.core.Instances;
@@ -144,12 +145,12 @@ public class MainActivity extends AppCompatActivity {
                 // reference to dataset
                 newInstance.setDataset(dataUnpredicted);
 
-                MultilayerPerceptron classifier = new MultilayerPerceptron();
+                MLPClassifier classifier = null;
 
                 AssetManager assetManager = getAssets();
 
                 try {
-                    classifier = (MultilayerPerceptron) weka.core.SerializationHelper.read(assetManager.open("Wash-Cycle-Model.model"));
+                    classifier = (MLPClassifier) weka.core.SerializationHelper.read(assetManager.open("Wash-Cycle-Model.model"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
