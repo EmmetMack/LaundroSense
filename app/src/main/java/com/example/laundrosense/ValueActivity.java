@@ -34,7 +34,10 @@ import io.particle.android.sdk.utils.Toaster;
 public class ValueActivity extends AppCompatActivity {
 
     // private static final String ARG_VALUE = "ARG_VALUE";
-    private static final String ARG_DEVICEID = "e00fce68ae329b6376267a66"; //change for specific device
+    // edit to connect to different devices
+    private static final String ARG_DEVICEID = "e00fce6883a68891f704eabb";
+    private static final String USR_NAME = "ntweir@andrew.cmu.edu";
+    private static final String PASSWORD = "YAL2qFOJpKZKxn4V38#J&fi!5%29SaR6cVFN0^5Lb*8tb84cXn*Xi#e^Ebsshxgg";
     public int ax = 0;
     public int ay = 0;
     public int az = 0;
@@ -62,7 +65,7 @@ public class ValueActivity extends AppCompatActivity {
                     String variable;
                     @Override
                     public Object callApi(@NonNull ParticleCloud ParticleCloud) throws ParticleCloudException, IOException {
-                        ParticleCloudSDK.getCloud().logIn("emack@andrew.cmu.edu", "Emack101!"); //change for specific device
+                        ParticleCloudSDK.getCloud().logIn(USR_NAME, PASSWORD);
                         ParticleDevice device = ParticleCloud.getDevice(ARG_DEVICEID);
 
                         try {
