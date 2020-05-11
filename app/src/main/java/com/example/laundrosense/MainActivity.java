@@ -63,23 +63,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        valueActivity = new ValueActivity();
-
-        doSomethingRepeatedly();
     }
 
-    private void doSomethingRepeatedly() {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate( new TimerTask() {
-            public void run() {
-                //valueActivity = new ValueActivity();
-                // we need those for creating new instances later
-
-
-            }
-        }, 0, 1000);
-    }
 
     }
 

@@ -42,12 +42,12 @@ import static androidx.core.app.NotificationCompat.PRIORITY_HIGH;
 public class ValueActivity extends AppCompatActivity {
 
     // private static final String ARG_VALUE = "ARG_VALUE";
-    public int particleax = 0;
-    public int particleay = 0;
-    public int particleaz = 0;
-    public int particlegx = 0;
-    public int particlegy = 0;
-    public int particlegz = 0;
+    private int particleax;
+    private int particleay;
+    private int particleaz;
+    private int particlegx;
+    private int particlegy;
+    private int particlegz;
 
     private ProgressBar progressBar;
     private TextView stage_name;
@@ -102,16 +102,18 @@ public class ValueActivity extends AppCompatActivity {
 
                         try {
                             particleax = device.getIntVariable("ax"); //change
-
+                            Log.d("TAG", "az: " + particleax);
                             particleay = device.getIntVariable("ay");
-
+                            Log.d("TAG", "ay: " + particleay);
                             particleaz = device.getIntVariable("az");
+                            Log.d("TAG", "az: " + particleaz);
                             particlegx = device.getIntVariable("gx");
-
+                            Log.d("TAG", "gx: " + particlegx);
                             particlegy = device.getIntVariable("gy");
+                            Log.d("TAG", "gy: " + particlegy);
 
                             particlegz = device.getIntVariable("gz");
-
+                            Log.d("TAG", "gz: " + particlegz);
 
                             Log.d("TAG", "Successfully pulled values");
 
@@ -185,31 +187,37 @@ public class ValueActivity extends AppCompatActivity {
                                 attributeList, 1);
                         // last feature is target variable
                         dataUnpredicted.setClassIndex(dataUnpredicted.numAttributes() - 1);
-
                         // create new instance: this one should fall into the setosa domain
-                        DenseInstance newInstanceStage = new DenseInstance(dataUnpredicted.numAttributes()) {
-                            {
-                                setValue(ax, particleax);
-                                setValue(ax2, Math.pow(particleax,2));
-                                setValue(ax3, Math.pow(particleax,3));
-                                setValue(ay, particleay);
-                                setValue(ay2, Math.pow(particleay,2));
-                                setValue(ay3, Math.pow(particleay, 3));
-                                setValue(az, particleaz);
-                                setValue(az2, Math.pow(particleaz,2));
-                                setValue(az3, Math.pow(particleaz, 3));
-                                setValue(gx, particlegx);
-                                setValue(gx2, Math.pow(particlegx, 2));
-                                setValue(gx3, Math.pow(particlegx, 3));
-                                setValue(gy, particlegy);
-                                setValue(gy2, Math.pow(particlegy,2));
-                                setValue(gy3, Math.pow(particlegy,3));
-                                setValue(gz, particlegz);
-                                setValue(gz2, Math.pow(particlegz, 2));
-                                setValue(gz3, Math.pow(particlegz, 3));
-                            }
-                        };
+                        DenseInstance newInstanceStage = null;
+                        
+                        if (particleax != 0 && particleay !=0 && particleaz != 0 && particlegx != 0 && particlegy != 0 && particlegz != 0) {
+                             newInstanceStage = new DenseInstance(dataUnpredicted.numAttributes()) {
+                                {
+                                    setValue(ax, particleax);
+                                    setValue(ax2, Math.pow(particleax,2));
+                                    setValue(ax3, Math.pow(particleax,3));
+                                    setValue(ay, particleay);
+                                    setValue(ay2, Math.pow(particleay,2));
+                                    setValue(ay3, Math.pow(particleay, 3));
+                                    setValue(az, particleaz);
+                                    setValue(az2, Math.pow(particleaz,2));
+                                    setValue(az3, Math.pow(particleaz, 3));
+                                    setValue(gx, particlegx);
+                                    setValue(gx2, Math.pow(particlegx, 2));
+                                    setValue(gx3, Math.pow(particlegx, 3));
+                                    setValue(gy, particlegy);
+                                    setValue(gy2, Math.pow(particlegy,2));
+                                    setValue(gy3, Math.pow(particlegy,3));
+                                    setValue(gz, particlegz);
+                                    setValue(gz2, Math.pow(particlegz, 2));
+                                    setValue(gz3, Math.pow(particlegz, 3));
+                                }
+                            };
+                        }
 
+                        if (newInstanceStage == null) {
+                            return;
+                        }
                         DenseInstance newInstance = newInstanceStage;
 
                         // reference to dataset
