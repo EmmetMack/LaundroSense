@@ -101,21 +101,22 @@ public class ValueActivity extends AppCompatActivity {
                         ParticleDevice device = ParticleCloud.getDevice(ARG_DEVICEID);
 
                         try {
+                            Log.d("DATA", "Beginning value pull.");
+
                             particleax = device.getIntVariable("ax"); //change
-                            Log.d("TAG", "az: " + particleax);
+                            Log.d("DATA", "ax: " + particleax);
                             particleay = device.getIntVariable("ay");
-                            Log.d("TAG", "ay: " + particleay);
+                            Log.d("DATA", "ay: " + particleay);
                             particleaz = device.getIntVariable("az");
-                            Log.d("TAG", "az: " + particleaz);
+                            Log.d("DATA", "az: " + particleaz);
                             particlegx = device.getIntVariable("gx");
-                            Log.d("TAG", "gx: " + particlegx);
+                            Log.d("DATA", "gx: " + particlegx);
                             particlegy = device.getIntVariable("gy");
-                            Log.d("TAG", "gy: " + particlegy);
-
+                            Log.d("DATA", "gy: " + particlegy);
                             particlegz = device.getIntVariable("gz");
-                            Log.d("TAG", "gz: " + particlegz);
+                            Log.d("DATA", "gz: " + particlegz);
 
-                            Log.d("TAG", "Successfully pulled values");
+                            Log.d("DATA", "Successfully pulled values.");
 
                         } catch (ParticleDevice.VariableDoesNotExistException e) {
                             Toaster.l(ValueActivity.this, e.getMessage());
@@ -244,8 +245,8 @@ public class ValueActivity extends AppCompatActivity {
                         try {
                             double result = classifier.classifyInstance(newInstance);
 
-                            System.out.println("Index of predicted class label: " + result + ", which corresponds to class: " + classes.get(new Double(result).intValue()));
                             String predictedClass = classes.get(new Double(result).intValue());
+                            Log.d("CLASS", "Index: " + result + ", Class: " + predictedClass);
 
                             runOnUiThread(new Runnable() {
                                 @Override
