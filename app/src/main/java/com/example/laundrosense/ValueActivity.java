@@ -32,6 +32,7 @@ import io.particle.android.sdk.cloud.ParticleCloudSDK;
 import io.particle.android.sdk.cloud.ParticleDevice;
 import io.particle.android.sdk.utils.Async;
 import io.particle.android.sdk.utils.Toaster;
+import weka.classifiers.Classifier;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
 import weka.core.DenseInstance;
@@ -86,7 +87,6 @@ public class ValueActivity extends AppCompatActivity {
         progressValue = findViewById(R.id.estimated_time);
         stage_name = findViewById((R.id.stage_value));
         doSomethingRepeatedly();
-
     }
 
     private void doSomethingRepeatedly() {
@@ -190,7 +190,6 @@ public class ValueActivity extends AppCompatActivity {
                         dataUnpredicted.setClassIndex(dataUnpredicted.numAttributes() - 1);
                         // create new instance: this one should fall into the setosa domain
                         DenseInstance newInstanceStage = null;
-
                         if (particleax != 0 && particleay !=0 && particleaz != 0 && particlegx != 0 && particlegy != 0 && particlegz != 0) {
                              newInstanceStage = new DenseInstance(dataUnpredicted.numAttributes()) {
                                 {
@@ -224,12 +223,12 @@ public class ValueActivity extends AppCompatActivity {
                         // reference to dataset
                         newInstance.setDataset(dataUnpredicted);
 
-                        RandomForest classifier = null;
+                        Classifier classifier = null;
 
                         AssetManager assetManager = getAssets();
 
                         try {
-                            classifier = (RandomForest) weka.core.SerializationHelper.read(assetManager.open("Wash-Cycle-Model.model"));
+                            classifier = (Classifier) weka.core.SerializationHelper.read(assetManager.open("Wash-Cycle-Model.model"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (Exception e) {
