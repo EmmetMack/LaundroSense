@@ -127,6 +127,7 @@ public class ValueActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(@NonNull Object i) { // this goes on the main thread
                     //include logic of getting variables in here and counting/checking on them
+
                         final Attribute ax = new Attribute("acclX");
                         final Attribute ax2 = new Attribute("acclX2");
                         final Attribute ax3 = new Attribute("acclX3");
@@ -147,13 +148,12 @@ public class ValueActivity extends AppCompatActivity {
                         final Attribute gz3 = new Attribute("gyroX3");
                         final List<String> classes = new ArrayList<String>() {
                             {
+                                add("pre");
                                 add("sense");
                                 add("wash");
                                 add("rinse");
                                 add("spin");
                                 add("done");
-                                add("drying");
-                                add("off");
                             }
                         };
 
@@ -189,7 +189,7 @@ public class ValueActivity extends AppCompatActivity {
                         dataUnpredicted.setClassIndex(dataUnpredicted.numAttributes() - 1);
                         // create new instance: this one should fall into the setosa domain
                         DenseInstance newInstanceStage = null;
-                        
+
                         if (particleax != 0 && particleay !=0 && particleaz != 0 && particlegx != 0 && particlegy != 0 && particlegz != 0) {
                              newInstanceStage = new DenseInstance(dataUnpredicted.numAttributes()) {
                                 {
@@ -246,6 +246,7 @@ public class ValueActivity extends AppCompatActivity {
 
                             System.out.println("Index of predicted class label: " + result + ", which corresponds to class: " + classes.get(new Double(result).intValue()));
                             String predictedClass = classes.get(new Double(result).intValue());
+                            Log.d("Class", "predictedClass: " + predictedClass);
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -255,8 +256,6 @@ public class ValueActivity extends AppCompatActivity {
                                         if (sensingCount == 0) {
                                             sendNotification("Sensing stage");
                                             progressBar.setMax(senseBaseline);
-
-
                                         }
                                         progressBar.setProgress(sensingCount);
                                         sensingCount ++;
@@ -302,21 +301,8 @@ public class ValueActivity extends AppCompatActivity {
                                             progressBar.setProgress(5);
                                         }
                                         doneCount ++;
-                                    } else if (predictedClass == "dry") {
-                                        stage_name.setText("Dry");
-                                        if (dryingCount == 0) {
-                                            sendNotification("Drying");
-                                            progressBar.setMax(2);
-                                            progressBar.setProgress((1));
-                                        }
-                                        dryingCount ++;
-                                    } else if (predictedClass == "off") {
-                                        stage_name.setText("Off");
-                                        if (offCount == 0) {
-                                            sendNotification("Dryer is finished!");
-                                            progressBar.setProgress((2));
-                                        }
-                                        doneCount ++;
+                                    } else if (predictedClass == "pre") {
+                                        return;
                                     }
                                     // in minutes
                                     timeRemaining = ((senseBaseline + washBaseline + rinseBaseline + spinBaseline)
