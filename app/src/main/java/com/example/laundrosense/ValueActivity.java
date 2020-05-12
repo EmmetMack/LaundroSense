@@ -319,7 +319,6 @@ public class ValueActivity extends AppCompatActivity {
 //                                    setValue(meangz, gyroZ.getMean());
 //                                    setValue(sdgz, gyroZ.getStandardDeviation());
 //                                    setValue(kurtgz, gyroZ.getKurtosis());
-                setValue(id, 23456789);
                 setValue(ax, 1440);
                 setValue(minax, 1304);
                 setValue(maxax, 1844);
@@ -335,7 +334,6 @@ public class ValueActivity extends AppCompatActivity {
                 setValue(kurtay, 0.847029469);
 
                 setValue(az, -1112);
-
                 setValue(minaz, -1500);
                 setValue(maxaz, -780);
                 setValue(meanaz, -1087.6);
