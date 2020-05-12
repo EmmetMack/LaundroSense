@@ -35,6 +35,7 @@ import io.particle.android.sdk.cloud.ParticleCloudSDK;
 import io.particle.android.sdk.cloud.ParticleDevice;
 import io.particle.android.sdk.utils.Async;
 import io.particle.android.sdk.utils.Toaster;
+
 import weka.classifiers.Classifier;
 import weka.classifiers.trees.RandomForest;
 import weka.core.Attribute;
@@ -57,6 +58,7 @@ public class ValueActivity extends AppCompatActivity {
     private TextView stage_name;
     private TextView progressValue;
 
+
     int timeRemaining;
     private int sensingCount = 0;
     private int washCount = 0;
@@ -70,6 +72,7 @@ public class ValueActivity extends AppCompatActivity {
     private int washBaseline = 1939;
     private int rinseBaseline = 609;
     private int spinBaseline = 659;
+
 
     private DescriptiveStatistics accelX = new DescriptiveStatistics(10);
     private DescriptiveStatistics accelY = new DescriptiveStatistics(10);
@@ -188,6 +191,7 @@ public class ValueActivity extends AppCompatActivity {
     private static final String USR_NAME = "ntweir@andrew.cmu.edu";
     private static final String PASSWORD = "YAL2qFOJpKZKxn4V38#J&fi!5%29SaR6cVFN0^5Lb*8tb84cXn*Xi#e^Ebsshxgg";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -247,9 +251,6 @@ public class ValueActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(@NonNull Object i) { // this goes on the main thread
                     //include logic of getting variables in here and counting/checking on them
-
-
-
                     }
 
                     @Override
@@ -468,7 +469,6 @@ public class ValueActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     public void sendNotification(String content) {
 
         //Get an instance of NotificationManager//
