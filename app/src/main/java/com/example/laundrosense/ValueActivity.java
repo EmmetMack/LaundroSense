@@ -26,6 +26,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
+
 import io.particle.android.sdk.cloud.ParticleCloud;
 import io.particle.android.sdk.cloud.exceptions.ParticleCloudException;
 import io.particle.android.sdk.cloud.ParticleCloudSDK;
@@ -69,6 +72,13 @@ public class ValueActivity extends AppCompatActivity {
     private int rinseBaseline = 609;
     private int spinBaseline = 659;
 
+    private DescriptiveStatistics accelX = new DescriptiveStatistics(10);
+    private DescriptiveStatistics accelY = new DescriptiveStatistics(10);
+    private DescriptiveStatistics accelZ = new DescriptiveStatistics(10);
+    private DescriptiveStatistics gyroX = new DescriptiveStatistics(10);
+    private DescriptiveStatistics gyroY = new DescriptiveStatistics(10);
+    private DescriptiveStatistics gyroZ = new DescriptiveStatistics(10);
+
     // edit to connect to different devices
     private static final String ARG_DEVICEID = "e00fce6883a68891f704eabb";
     private static final String USR_NAME = "ntweir@andrew.cmu.edu";
@@ -104,16 +114,22 @@ public class ValueActivity extends AppCompatActivity {
                             Log.d("DATA", "Beginning value pull.");
 
                             particleax = device.getIntVariable("ax"); //change
+                            accelX.addValue(particleax);
                             Log.d("DATA", "ax: " + particleax);
                             particleay = device.getIntVariable("ay");
+                            accelY.addValue(particleay);
                             Log.d("DATA", "ay: " + particleay);
                             particleaz = device.getIntVariable("az");
+                            accelZ.addValue(particleaz);
                             Log.d("DATA", "az: " + particleaz);
                             particlegx = device.getIntVariable("gx");
+                            gyroX.addValue(particlegx);
                             Log.d("DATA", "gx: " + particlegx);
                             particlegy = device.getIntVariable("gy");
+                            gyroY.addValue(particlegy);
                             Log.d("DATA", "gy: " + particlegy);
                             particlegz = device.getIntVariable("gz");
+                            gyroZ.addValue(particlegz);
                             Log.d("DATA", "gz: " + particlegz);
 
                             Log.d("DATA", "Successfully pulled values.");
@@ -129,24 +145,51 @@ public class ValueActivity extends AppCompatActivity {
                     public void onSuccess(@NonNull Object i) { // this goes on the main thread
                     //include logic of getting variables in here and counting/checking on them
 
-                        final Attribute ax = new Attribute("acclX");
-                        final Attribute ax2 = new Attribute("acclX2");
-                        final Attribute ax3 = new Attribute("acclX3");
-                        final Attribute ay = new Attribute("acclY");
-                        final Attribute ay2 = new Attribute("acclY2");
-                        final Attribute ay3 = new Attribute("acclY3");
-                        final Attribute az = new Attribute("acclZ");
-                        final Attribute az2 = new Attribute("acclZ2");
-                        final Attribute az3 = new Attribute("acclZ3");
-                        final Attribute gy = new Attribute("gyroY");
-                        final Attribute gy2 = new Attribute("gyroY2");
-                        final Attribute gy3 = new Attribute("gyroY3");
-                        final Attribute gx = new Attribute("gyroZ");
-                        final Attribute gx2 = new Attribute("gyroZ2");
-                        final Attribute gx3 = new Attribute("gyroZ3");
-                        final Attribute gz = new Attribute("gyroX");
-                        final Attribute gz2 = new Attribute("gyroX2");
-                        final Attribute gz3 = new Attribute("gyroX3");
+                        final Attribute meanax = new Attribute("meanax");
+                        final Attribute maxax = new Attribute("maxax");
+                        final Attribute minax = new Attribute("minax");
+                        final Attribute sdax = new Attribute("sdax");
+                        final Attribute kurtax = new Attribute("kurtax");
+                        final Attribute ax = new Attribute("ax");
+
+
+                        final Attribute meanay = new Attribute("meanay");
+                        final Attribute maxay = new Attribute("maxay");
+                        final Attribute minay = new Attribute("minay");
+                        final Attribute sday = new Attribute("sday");
+                        final Attribute kurtay = new Attribute("kurtay");
+                        final Attribute ay = new Attribute("ay");
+
+
+                        final Attribute meanaz = new Attribute("meanaz");
+                        final Attribute maxaz = new Attribute("maxaz");
+                        final Attribute minaz = new Attribute("minaz");
+                        final Attribute sdaz = new Attribute("sdaz");
+                        final Attribute kurtaz = new Attribute("kurtaz");
+                        final Attribute az = new Attribute("az");
+
+
+                        final Attribute meangy = new Attribute("meangy");
+                        final Attribute maxgy = new Attribute("maxgy");
+                        final Attribute mingy = new Attribute("mingy");
+                        final Attribute sdgy = new Attribute("sdgy");
+                        final Attribute kurtgy = new Attribute("kurtgy");
+                        final Attribute gy = new Attribute("gy");
+
+                        final Attribute meangx = new Attribute("meangx");
+                        final Attribute maxgx = new Attribute("maxgx");
+                        final Attribute mingx = new Attribute("mingx");
+                        final Attribute sdgx = new Attribute("sdgx");
+                        final Attribute kurtgx = new Attribute("kurtgx");
+                        final Attribute gx = new Attribute("gx");
+
+                        final Attribute meangz = new Attribute("meangz");
+                        final Attribute maxgz = new Attribute("maxgz");
+                        final Attribute mingz = new Attribute("mingz");
+                        final Attribute sdgz = new Attribute("sdgz");
+                        final Attribute kurtgz = new Attribute("kurtgz");
+                        final Attribute gz = new Attribute("gz");
+
                         final List<String> classes = new ArrayList<String>() {
                             {
                                 add("pre");
@@ -162,23 +205,47 @@ public class ValueActivity extends AppCompatActivity {
                         ArrayList<Attribute> attributeList = new ArrayList<Attribute>(1) {
                             {
                                 add(ax);
-                                add(ax2);
-                                add(ax3);
+                                add(minax);
+                                add(maxax);
+                                add(kurtax);
+                                add(sdax);
+                                add(meanax);
+
                                 add(ay);
-                                add(ay2);
-                                add(ay3);
+                                add(minay);
+                                add(maxay);
+                                add(kurtay);
+                                add(sday);
+                                add(meanay);
+
                                 add(az);
-                                add(az2);
-                                add(az3);
-                                add(gy);
-                                add(gy2);
-                                add(gy3);
+                                add(minaz);
+                                add(maxaz);
+                                add(kurtaz);
+                                add(sdaz);
+                                add(meanaz);
+
                                 add(gx);
-                                add(gx2);
-                                add(gx3);
+                                add(mingx);
+                                add(maxgx);
+                                add(kurtgx);
+                                add(sdgx);
+                                add(meangx);
+
+                                add(gy);
+                                add(mingy);
+                                add(maxgy);
+                                add(kurtgy);
+                                add(sdgy);
+                                add(meangy);
+
                                 add(gz);
-                                add(gz2);
-                                add(gz3);
+                                add(mingz);
+                                add(maxgz);
+                                add(kurtgz);
+                                add(sdgz);
+                                add(meangz);
+
                                 Attribute attributeClass = new Attribute("@@class@@", classes);
                                 add(attributeClass);
                             }
@@ -194,23 +261,48 @@ public class ValueActivity extends AppCompatActivity {
                              newInstanceStage = new DenseInstance(dataUnpredicted.numAttributes()) {
                                 {
                                     setValue(ax, particleax);
-                                    setValue(ax2, Math.pow(particleax,2));
-                                    setValue(ax3, Math.pow(particleax,3));
+                                    setValue(minax, accelX.getMin());
+                                    setValue(maxax, accelX.getMax());
+                                    setValue(meanax, accelX.getMean());
+                                    setValue(sdax, accelX.getStandardDeviation());
+                                    setValue(kurtax, accelX.getKurtosis());
+
                                     setValue(ay, particleay);
-                                    setValue(ay2, Math.pow(particleay,2));
-                                    setValue(ay3, Math.pow(particleay, 3));
+                                    setValue(minay, accelY.getMin());
+                                    setValue(maxay, accelY.getMax());
+                                    setValue(meanay, accelY.getMean());
+                                    setValue(sday, accelY.getStandardDeviation());
+                                    setValue(kurtay, accelY.getKurtosis());
+
                                     setValue(az, particleaz);
-                                    setValue(az2, Math.pow(particleaz,2));
-                                    setValue(az3, Math.pow(particleaz, 3));
+
+                                    setValue(minaz, accelZ.getMin());
+                                    setValue(maxaz, accelZ.getMax());
+                                    setValue(meanaz, accelZ.getMean());
+                                    setValue(sdaz, accelZ.getStandardDeviation());
+                                    setValue(kurtaz, accelZ.getKurtosis());
+
                                     setValue(gx, particlegx);
-                                    setValue(gx2, Math.pow(particlegx, 2));
-                                    setValue(gx3, Math.pow(particlegx, 3));
+                                    setValue(mingx, gyroX.getMin());
+                                    setValue(maxgx, gyroX.getMax());
+                                    setValue(meangx, gyroX.getMean());
+                                    setValue(sdgx, gyroX.getStandardDeviation());
+                                    setValue(kurtgx, gyroX.getKurtosis());
+
                                     setValue(gy, particlegy);
-                                    setValue(gy2, Math.pow(particlegy,2));
-                                    setValue(gy3, Math.pow(particlegy,3));
+                                    setValue(mingy, gyroY.getMin());
+                                    setValue(maxgy, gyroY.getMax());
+                                    setValue(meangy, gyroY.getMean());
+                                    setValue(sdgy, gyroY.getStandardDeviation());
+                                    setValue(kurtgy, gyroY.getKurtosis());
+
                                     setValue(gz, particlegz);
-                                    setValue(gz2, Math.pow(particlegz, 2));
-                                    setValue(gz3, Math.pow(particlegz, 3));
+                                    setValue(mingz, gyroZ.getMin());
+                                    setValue(maxgz, gyroZ.getMax());
+                                    setValue(meangz, gyroZ.getMean());
+                                    setValue(sdgz, gyroZ.getStandardDeviation());
+                                    setValue(kurtgz, gyroZ.getKurtosis());
+
                                 }
                             };
                         }
@@ -228,7 +320,7 @@ public class ValueActivity extends AppCompatActivity {
                         AssetManager assetManager = getAssets();
 
                         try {
-                            classifier = (Classifier) weka.core.SerializationHelper.read(assetManager.open("Wash-Cycle-Model.model"));
+                            classifier = (Classifier) weka.core.SerializationHelper.read(assetManager.open("laundrosense.model"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (Exception e) {
