@@ -57,7 +57,6 @@ public class ValueActivity extends AppCompatActivity {
     private TextView stage_name;
     private TextView progressValue;
 
-    int id = 000;
     int timeRemaining;
     private int sensingCount = 0;
     private int washCount = 0;
@@ -79,11 +78,115 @@ public class ValueActivity extends AppCompatActivity {
     private DescriptiveStatistics gyroY = new DescriptiveStatistics(10);
     private DescriptiveStatistics gyroZ = new DescriptiveStatistics(10);
 
+    final Attribute id = new Attribute("id");
+    final Attribute ax = new Attribute("ax");
+    final Attribute ay = new Attribute("ay");
+    final Attribute az = new Attribute("az");
+    final Attribute gx = new Attribute("gx");
+    final Attribute gy = new Attribute("gy");
+    final Attribute gz = new Attribute("gz");
+
+    final Attribute maxax = new Attribute("maxax");
+    final Attribute maxay = new Attribute("maxay");
+    final Attribute maxaz = new Attribute("maxaz");
+    final Attribute maxgx = new Attribute("maxgx");
+    final Attribute maxgy = new Attribute("maxgy");
+    final Attribute maxgz = new Attribute("maxgz");
+
+    final Attribute minax = new Attribute("minax");
+    final Attribute minay = new Attribute("minay");
+    final Attribute minaz = new Attribute("minaz");
+    final Attribute mingx = new Attribute("mingx");
+    final Attribute mingy = new Attribute("mingy");
+    final Attribute mingz = new Attribute("mingz");
+
+    final Attribute meanax = new Attribute("meanax");
+    final Attribute meanay = new Attribute("meanay");
+    final Attribute meanaz = new Attribute("meanaz");
+    final Attribute meangx = new Attribute("meangx");
+    final Attribute meangy = new Attribute("meangy");
+    final Attribute meangz = new Attribute("meangz");
+
+    final Attribute sdax = new Attribute("sdax");
+    final Attribute sday = new Attribute("sday");
+    final Attribute sdaz = new Attribute("sdaz");
+    final Attribute sdgx = new Attribute("sdgx");
+    final Attribute sdgy = new Attribute("sdgy");
+    final Attribute sdgz = new Attribute("sdgz");
+
+    final Attribute kurtax = new Attribute("kurtax");
+    final Attribute kurtay = new Attribute("kurtay");
+    final Attribute kurtaz = new Attribute("kurtaz");
+    final Attribute kurtgx = new Attribute("kurtgx");
+    final Attribute kurtgy = new Attribute("kurtgy");
+    final Attribute kurtgz = new Attribute("kurtgz");
+
+    final List<String> classes = new ArrayList<String>() {
+        {
+            add("pre");
+            add("sense");
+            add("wash");
+            add("rinse");
+            add("spin");
+            add("done");
+        }
+    };
+
+    // Instances(...) requires ArrayList<> instead of List<>...
+    ArrayList<Attribute> attributeList = new ArrayList<Attribute>(1) {
+        {
+            add(id);
+            add(ax);
+            add(ay);
+            add(az);
+            add(gx);
+            add(gy);
+            add(gz);
+
+            add(maxax);
+            add(maxay);
+            add(maxaz);
+            add(maxgx);
+            add(maxgy);
+            add(maxgz);
+
+            add(minax);
+            add(minay);
+            add(minaz);
+            add(mingx);
+            add(mingy);
+            add(mingz);
+
+            add(meanax);
+            add(meanay);
+            add(meanaz);
+            add(meangx);
+            add(meangy);
+            add(meangz);
+
+            add(sdax);
+            add(sday);
+            add(sdaz);
+            add(sdgx);
+            add(sdgy);
+            add(sdgz);
+
+            add(kurtax);
+            add(kurtay);
+            add(kurtaz);
+            add(kurtgx);
+            add(kurtgy);
+            add(kurtgz);
+            Attribute attributeClass = new Attribute("@@class@@", classes);
+            add(attributeClass);
+        }
+    };
+
+
     // edit to connect to different devices
     private static final String ARG_DEVICEID = "e00fce6883a68891f704eabb";
     private static final String USR_NAME = "ntweir@andrew.cmu.edu";
     private static final String PASSWORD = "YAL2qFOJpKZKxn4V38#J&fi!5%29SaR6cVFN0^5Lb*8tb84cXn*Xi#e^Ebsshxgg";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +214,8 @@ public class ValueActivity extends AppCompatActivity {
                         ParticleDevice device = ParticleCloud.getDevice(ARG_DEVICEID);
 
                         try {
+                            classifyData();
                             Log.d("DATA", "Beginning value pull.");
-
                             particleax = device.getIntVariable("ax"); //change
                             accelX.addValue(particleax);
                             Log.d("DATA", "ax: " + particleax);
@@ -145,269 +248,8 @@ public class ValueActivity extends AppCompatActivity {
                     public void onSuccess(@NonNull Object i) { // this goes on the main thread
                     //include logic of getting variables in here and counting/checking on them
 
-                        final Attribute meanax = new Attribute("meanax");
-                        final Attribute maxax = new Attribute("maxax");
-                        final Attribute minax = new Attribute("minax");
-                        final Attribute sdax = new Attribute("sdax");
-                        final Attribute kurtax = new Attribute("kurtax");
-                        final Attribute ax = new Attribute("ax");
 
 
-                        final Attribute meanay = new Attribute("meanay");
-                        final Attribute maxay = new Attribute("maxay");
-                        final Attribute minay = new Attribute("minay");
-                        final Attribute sday = new Attribute("sday");
-                        final Attribute kurtay = new Attribute("kurtay");
-                        final Attribute ay = new Attribute("ay");
-
-
-                        final Attribute meanaz = new Attribute("meanaz");
-                        final Attribute maxaz = new Attribute("maxaz");
-                        final Attribute minaz = new Attribute("minaz");
-                        final Attribute sdaz = new Attribute("sdaz");
-                        final Attribute kurtaz = new Attribute("kurtaz");
-                        final Attribute az = new Attribute("az");
-
-
-                        final Attribute meangy = new Attribute("meangy");
-                        final Attribute maxgy = new Attribute("maxgy");
-                        final Attribute mingy = new Attribute("mingy");
-                        final Attribute sdgy = new Attribute("sdgy");
-                        final Attribute kurtgy = new Attribute("kurtgy");
-                        final Attribute gy = new Attribute("gy");
-
-                        final Attribute meangx = new Attribute("meangx");
-                        final Attribute maxgx = new Attribute("maxgx");
-                        final Attribute mingx = new Attribute("mingx");
-                        final Attribute sdgx = new Attribute("sdgx");
-                        final Attribute kurtgx = new Attribute("kurtgx");
-                        final Attribute gx = new Attribute("gx");
-
-                        final Attribute meangz = new Attribute("meangz");
-                        final Attribute maxgz = new Attribute("maxgz");
-                        final Attribute mingz = new Attribute("mingz");
-                        final Attribute sdgz = new Attribute("sdgz");
-                        final Attribute kurtgz = new Attribute("kurtgz");
-                        final Attribute gz = new Attribute("gz");
-
-                        final List<String> classes = new ArrayList<String>() {
-                            {
-                                add("pre");
-                                add("sense");
-                                add("wash");
-                                add("rinse");
-                                add("spin");
-                                add("done");
-                            }
-                        };
-
-                        // Instances(...) requires ArrayList<> instead of List<>...
-                        ArrayList<Attribute> attributeList = new ArrayList<Attribute>(1) {
-                            {
-                                add(ax);
-                                add(minax);
-                                add(maxax);
-                                add(kurtax);
-                                add(sdax);
-                                add(meanax);
-
-                                add(ay);
-                                add(minay);
-                                add(maxay);
-                                add(kurtay);
-                                add(sday);
-                                add(meanay);
-
-                                add(az);
-                                add(minaz);
-                                add(maxaz);
-                                add(kurtaz);
-                                add(sdaz);
-                                add(meanaz);
-
-                                add(gx);
-                                add(mingx);
-                                add(maxgx);
-                                add(kurtgx);
-                                add(sdgx);
-                                add(meangx);
-
-                                add(gy);
-                                add(mingy);
-                                add(maxgy);
-                                add(kurtgy);
-                                add(sdgy);
-                                add(meangy);
-
-                                add(gz);
-                                add(mingz);
-                                add(maxgz);
-                                add(kurtgz);
-                                add(sdgz);
-                                add(meangz);
-
-                                Attribute attributeClass = new Attribute("@@class@@", classes);
-                                add(attributeClass);
-                            }
-                        };
-                        // unpredicted data sets (reference to sample structure for new instances)
-                        Instances dataUnpredicted = new Instances("TestInstances",
-                                attributeList, 1);
-                        // last feature is target variable
-                        dataUnpredicted.setClassIndex(dataUnpredicted.numAttributes() - 1);
-                        // create new instance: this one should fall into the setosa domain
-                        DenseInstance newInstanceStage = null;
-                        if (particleax != 0 && particleay !=0 && particleaz != 0 && particlegx != 0 && particlegy != 0 && particlegz != 0) {
-                             newInstanceStage = new DenseInstance(dataUnpredicted.numAttributes()) {
-                                {
-                                    setValue(ax, particleax);
-                                    setValue(minax, accelX.getMin());
-                                    setValue(maxax, accelX.getMax());
-                                    setValue(meanax, accelX.getMean());
-                                    setValue(sdax, accelX.getStandardDeviation());
-                                    setValue(kurtax, accelX.getKurtosis());
-
-                                    setValue(ay, particleay);
-                                    setValue(minay, accelY.getMin());
-                                    setValue(maxay, accelY.getMax());
-                                    setValue(meanay, accelY.getMean());
-                                    setValue(sday, accelY.getStandardDeviation());
-                                    setValue(kurtay, accelY.getKurtosis());
-
-                                    setValue(az, particleaz);
-
-                                    setValue(minaz, accelZ.getMin());
-                                    setValue(maxaz, accelZ.getMax());
-                                    setValue(meanaz, accelZ.getMean());
-                                    setValue(sdaz, accelZ.getStandardDeviation());
-                                    setValue(kurtaz, accelZ.getKurtosis());
-
-                                    setValue(gx, particlegx);
-                                    setValue(mingx, gyroX.getMin());
-                                    setValue(maxgx, gyroX.getMax());
-                                    setValue(meangx, gyroX.getMean());
-                                    setValue(sdgx, gyroX.getStandardDeviation());
-                                    setValue(kurtgx, gyroX.getKurtosis());
-
-                                    setValue(gy, particlegy);
-                                    setValue(mingy, gyroY.getMin());
-                                    setValue(maxgy, gyroY.getMax());
-                                    setValue(meangy, gyroY.getMean());
-                                    setValue(sdgy, gyroY.getStandardDeviation());
-                                    setValue(kurtgy, gyroY.getKurtosis());
-
-                                    setValue(gz, particlegz);
-                                    setValue(mingz, gyroZ.getMin());
-                                    setValue(maxgz, gyroZ.getMax());
-                                    setValue(meangz, gyroZ.getMean());
-                                    setValue(sdgz, gyroZ.getStandardDeviation());
-                                    setValue(kurtgz, gyroZ.getKurtosis());
-
-                                }
-                            };
-                        }
-
-                        if (newInstanceStage == null) {
-                            return;
-                        }
-                        DenseInstance newInstance = newInstanceStage;
-
-                        // reference to dataset
-                        newInstance.setDataset(dataUnpredicted);
-
-                        Classifier classifier = null;
-
-                        AssetManager assetManager = getAssets();
-
-                        try {
-                            classifier = (Classifier) weka.core.SerializationHelper.read(assetManager.open("laundrosense.model"));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            // Weka "catch'em all!"
-                            e.printStackTrace();
-                        }
-
-
-                        if (classifier == null)
-                            return;
-
-                        // predict new sample
-                        try {
-                            double result = classifier.classifyInstance(newInstance);
-
-                            String predictedClass = classes.get(new Double(result).intValue());
-
-                            Log.d("CLASS", "Index: " + result + ", Class: " + predictedClass);
-
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (predictedClass == "sensing") {
-                                        stage_name.setText("Sensing");
-                                        if (sensingCount == 0) {
-                                            sendNotification("Sensing stage");
-                                            progressBar.setMax(senseBaseline);
-                                        }
-                                        progressBar.setProgress(sensingCount);
-                                        sensingCount ++;
-                                    } else if (predictedClass == "wash") {
-                                        stage_name.setText("Wash");
-                                        if (washCount == 0) {
-                                            sendNotification("In Washing Stage");
-                                            progressBar.setProgress(2);
-                                        }
-                                        if (washCount == 60) {
-                                            washBaseline = washBaseline * sensingCount / senseBaseline;
-                                            rinseBaseline = rinseBaseline * sensingCount / senseBaseline;
-                                            spinBaseline = spinBaseline * sensingCount / senseBaseline;
-                                        }
-                                        washCount ++;
-
-                                    } else if (predictedClass == "rinse") {
-                                        stage_name.setText("Rinse");
-                                        if (rinseCount == 0) {
-                                            sendNotification("Rinsing Now");
-                                            progressBar.setProgress(3);
-                                        }
-                                        if (rinseCount == 60) {
-                                            rinseBaseline = rinseBaseline * washCount / washBaseline;
-                                            spinBaseline = spinBaseline * washCount / washBaseline;
-                                        }
-
-                                        rinseCount ++;
-                                    } else if (predictedClass == "spin") {
-                                        stage_name.setText("Spin");
-                                        if (spinCount == 0 ) {
-                                            sendNotification("In Spin Stage");
-                                            progressBar.setProgress(4);
-                                        }
-                                        if (spinCount == 60) {
-                                            spinBaseline = spinBaseline * rinseCount / rinseBaseline;
-                                        }
-                                        spinCount ++;
-                                    } else if (predictedClass == "done") {
-                                        stage_name.setText("Done");
-                                        if (doneCount == 0) {
-                                            sendNotification("Washing machine done!");
-                                            progressBar.setProgress(5);
-                                        }
-                                        doneCount ++;
-                                    } else if (predictedClass == "pre") {
-                                        return;
-                                    }
-                                    // in minutes
-                                    timeRemaining = ((senseBaseline + washBaseline + rinseBaseline + spinBaseline)
-                                            - (sensingCount + washCount + rinseCount + spinCount)) / 60;
-                                    progressValue.setText(timeRemaining+" minutes");
-                                }
-                            });
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     }
 
                     @Override
@@ -418,6 +260,215 @@ public class ValueActivity extends AppCompatActivity {
 
             }
         }, 0, 1000);
+    }
+
+    public void classifyData() {
+
+        Log.d("DATA", "In classifyData()");
+
+        // unpredicted data sets (reference to sample structure for new instances)
+        Instances dataUnpredicted = new Instances("TestInstances",
+                attributeList, 1);
+        Log.d("CLASS", "numAttributes: " + dataUnpredicted.numAttributes());
+        // last feature is target variable
+        dataUnpredicted.setClassIndex(dataUnpredicted.numAttributes() - 1);
+        // create new instance: this one should fall into the setosa domain
+
+        DenseInstance newInstanceStage = new DenseInstance(dataUnpredicted.numAttributes()) {
+            {
+                //                     setValue(id, 23456789);
+//                                    setValue(ax, particleax);
+//                                    setValue(minax, accelX.getMin());
+//                                    setValue(maxax, accelX.getMax());
+//                                    setValue(meanax, accelX.getMean());
+//                                    setValue(sdax, accelX.getStandardDeviation());
+//                                    setValue(kurtax, accelX.getKurtosis());
+//
+//                                    setValue(ay, particleay);
+//                                    setValue(minay, accelY.getMin());
+//                                    setValue(maxay, accelY.getMax());
+//                                    setValue(meanay, accelY.getMean());
+//                                    setValue(sday, accelY.getStandardDeviation());
+//                                    setValue(kurtay, accelY.getKurtosis());
+//
+//                                    setValue(az, particleaz);
+//
+//                                    setValue(minaz, accelZ.getMin());
+//                                    setValue(maxaz, accelZ.getMax());
+//                                    setValue(meanaz, accelZ.getMean());
+//                                    setValue(sdaz, accelZ.getStandardDeviation());
+//                                    setValue(kurtaz, accelZ.getKurtosis());
+//
+//                                    setValue(gx, particlegx);
+//                                    setValue(mingx, gyroX.getMin());
+//                                    setValue(maxgx, gyroX.getMax());
+//                                    setValue(meangx, gyroX.getMean());
+//                                    setValue(sdgx, gyroX.getStandardDeviation());
+//                                    setValue(kurtgx, gyroX.getKurtosis());
+//
+//                                    setValue(gy, particlegy);
+//                                    setValue(mingy, gyroY.getMin());
+//                                    setValue(maxgy, gyroY.getMax());
+//                                    setValue(meangy, gyroY.getMean());
+//                                    setValue(sdgy, gyroY.getStandardDeviation());
+//                                    setValue(kurtgy, gyroY.getKurtosis());
+//
+//                                    setValue(gz, particlegz);
+//                                    setValue(mingz, gyroZ.getMin());
+//                                    setValue(maxgz, gyroZ.getMax());
+//                                    setValue(meangz, gyroZ.getMean());
+//                                    setValue(sdgz, gyroZ.getStandardDeviation());
+//                                    setValue(kurtgz, gyroZ.getKurtosis());
+                setValue(id, 23456789);
+                setValue(ax, 1440);
+                setValue(minax, 1304);
+                setValue(maxax, 1844);
+                setValue(meanax, 1544.8);
+                setValue(sdax, 26285.51111);
+                setValue(kurtax, -0.278360985);
+
+                setValue(ay, 15788);
+                setValue(minay, 15576);
+                setValue(maxay, 15960);
+                setValue(meanay, 15790.8);
+                setValue(sday, 11840.17778);
+                setValue(kurtay, 0.847029469);
+
+                setValue(az, -1112);
+
+                setValue(minaz, -1500);
+                setValue(maxaz, -780);
+                setValue(meanaz, -1087.6);
+                setValue(sdaz, 51877.15556);
+                setValue(kurtaz, 0.133826695);
+
+                setValue(gx, -274);
+                setValue(mingx, -288);
+                setValue(maxgx, -223);
+                setValue(meangx, -268);
+                setValue(sdgx, 550.8888889);
+                setValue(kurtgx, 0.888091217);
+
+                setValue(gy, 186);
+                setValue(mingy, 86);
+                setValue(maxgy, 201);
+                setValue(meangy, 154.1);
+                setValue(sdgy, 1251.211111);
+                setValue(kurtgy, 0.033220332);
+
+                setValue(gz, -140);
+                setValue(mingz, -145);
+                setValue(maxgz, -130);
+                setValue(meangz, -137.8);
+                setValue(sdgz, 24.62222222);
+                setValue(kurtgz, -0.910881503);
+
+            }
+        };
+
+        DenseInstance newInstance = newInstanceStage;
+        // reference to dataset
+        newInstance.setDataset(dataUnpredicted);
+
+        Classifier classifier = null;
+
+        AssetManager assetManager = getAssets();
+
+        try {
+            classifier = (Classifier) weka.core.SerializationHelper.read(assetManager.open("laundrosense.model"));
+            Log.d("CLASS", "Model loaded");
+        } catch (IOException e) {
+            Log.d("CLASS", "Model not loaded");
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.d("CLASS", "Model not loaded");
+            // Weka "catch'em all!
+            e.printStackTrace();
+        }
+
+
+
+        if (classifier == null) {
+            Log.d("CLASS", "classifer is null");
+            return;
+        }
+
+
+        // predict new sample
+        try {
+            double result = classifier.classifyInstance(newInstance);
+
+            String predictedClass = classes.get(new Double(result).intValue());
+
+            Log.d("CLASS", "Index: " + result + ", Class: " + predictedClass);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (predictedClass == "sensing") {
+                        stage_name.setText("Sensing");
+                        if (sensingCount == 0) {
+                            sendNotification("Sensing stage");
+                            progressBar.setMax(senseBaseline);
+                        }
+                        progressBar.setProgress(sensingCount);
+                        sensingCount ++;
+                    } else if (predictedClass == "wash") {
+                        stage_name.setText("Wash");
+                        if (washCount == 0) {
+                            sendNotification("In Washing Stage");
+                            progressBar.setProgress(2);
+                        }
+                        if (washCount == 60) {
+                            washBaseline = washBaseline * sensingCount / senseBaseline;
+                            rinseBaseline = rinseBaseline * sensingCount / senseBaseline;
+                            spinBaseline = spinBaseline * sensingCount / senseBaseline;
+                        }
+                        washCount ++;
+
+                    } else if (predictedClass == "rinse") {
+                        stage_name.setText("Rinse");
+                        if (rinseCount == 0) {
+                            sendNotification("Rinsing Now");
+                            progressBar.setProgress(3);
+                        }
+                        if (rinseCount == 60) {
+                            rinseBaseline = rinseBaseline * washCount / washBaseline;
+                            spinBaseline = spinBaseline * washCount / washBaseline;
+                        }
+
+                        rinseCount ++;
+                    } else if (predictedClass == "spin") {
+                        stage_name.setText("Spin");
+                        if (spinCount == 0 ) {
+                            sendNotification("In Spin Stage");
+                            progressBar.setProgress(4);
+                        }
+                        if (spinCount == 60) {
+                            spinBaseline = spinBaseline * rinseCount / rinseBaseline;
+                        }
+                        spinCount ++;
+                    } else if (predictedClass == "done") {
+                        stage_name.setText("Done");
+                        if (doneCount == 0) {
+                            sendNotification("Washing machine done!");
+                            progressBar.setProgress(5);
+                        }
+                        doneCount ++;
+                    } else if (predictedClass == "pre") {
+                        return;
+                    }
+                    // in minutes
+                    timeRemaining = ((senseBaseline + washBaseline + rinseBaseline + spinBaseline)
+                            - (sensingCount + washCount + rinseCount + spinCount)) / 60;
+                    progressValue.setText(timeRemaining+" minutes");
+                }
+            });
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendNotification(String content) {
